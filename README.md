@@ -1,65 +1,72 @@
 # laravel-order
-laravel 框架中的 order 组件。
 
-# 安装
-
-可以直接在命令行中安装：
+# Installation
 
     composer require "trexology/laravel-order:1.0.*"
 
-或者可以在你项目中 `composer.json` 中加入以下代码：
-
-    "require": {
-        "trexology/laravel-order": "1.0.*"
-    }
-
-然后再执行:
-
-    composer update
-
-在完成上面的安装之后，可以在 `config/app.php` 中的 `providers` 数组中增加以下代码：
+After installation，go to `config/app.php` under `providers` section to add the following:
 
     'Trexology\LaravelOrder\LaravelOrderServiceProvider'
 
-然后增加一行到
+and under "aliases" add:
 
     'Order'   => 'Trexology\LaravelOrder\Facades\Order',
 
 
-# 使用
+# Usage
 
-## 创建一个订单
+## Create a new order
 
-    Order Order::order(array $items, int $user_id);
+```php
+    $data = [
+        //Custom fields
+        'cust_first_name' => $cust->first_name,
+        'cust_last_name' => $cust->last_name
+    ];
 
-## 获取一个订单
+    Order Order::order(int $user_id, array $data);
+```
 
+## Add item to Order
+```php
+    $data = [
+      'description' => "My item descriptions",
+      'currency' => "SGD"
+    ];
+    Order::addItem($order->id, $veh, 90, 2, null, 0.07);
+```
+
+## Get an order
+```php
     Order Order::getOrder($order_id);
+```
 
-## 获取用户的订单
-
+## Get user's orders
+```php
     Collection Order::getUserOrders($user_id);
+```
 
-## 更改订单状态
-
+## Update Order Status
+```php
     boolean Order::updateStatus(int $order_id, string $status);
+```
 
-## 删除一个订单
-
+## Delete an Order
+```php
     boolean Order::deleteOrder(int $order_id);
+```
 
-## 更新订单项数量
-
+## Update Order quantity
+```php
     OrderItem Order::updateQty(int $item_id, int qty);
+```
 
-## 计算订单总价格
-
+## Calculate an Order total amount
+```php
     float Order::total($order_id);
+```
 
-## 计算商品总数量
-
+## Calculate an Order total item count
+```php
     int Order::count($order_id);
-
-## 更新订单商品数量和总价
-
-    boolean Order::updateOrder($order_id);
+```

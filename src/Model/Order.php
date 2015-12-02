@@ -25,7 +25,7 @@ class Order extends Model
 
 
     /**
-     * 创建一个新的订单.
+     * Create an Order
      *
      * @param array $items
      * @param $user_id
@@ -57,7 +57,7 @@ class Order extends Model
     }
 
     /**
-     * 获取一个订单.
+     * Get an Order
      *
      * @param $order_id
      *
@@ -69,7 +69,7 @@ class Order extends Model
     }
 
     /**
-     * 获取用户的所有订单.
+     * Get User Order
      *
      * @param $user_id
      *
@@ -81,7 +81,7 @@ class Order extends Model
     }
 
     /**
-     * 更新一个订单项的数量.
+     * Refresh an Order amount
      *
      * @param $item_id
      * @param $qty
@@ -148,7 +148,7 @@ class Order extends Model
     }
 
     /**
-     * 删除一个订单项.
+     * Delete an Order
      *
      * @param $item_id
      *
@@ -176,7 +176,7 @@ class Order extends Model
     }
 
     /**
-     * 改变订单状态.
+     * Update an Order Status
      *
      * @param $order_id
      * @param $status
@@ -203,7 +203,7 @@ class Order extends Model
     }
 
     /**
-     * 删除一个订单.
+     * Delete an Order
      *
      * @param $order_id
      *
@@ -225,7 +225,7 @@ class Order extends Model
     }
 
     /**
-     * 更新订单中商品数量和总价格.
+     * Refresh an Order's values
      *
      * @param $order_id
      *
@@ -250,7 +250,7 @@ class Order extends Model
     }
 
     /**
-     * 计算订单中商品总数量.
+     * Calculate an Order total amount
      *
      * @param $order_id
      *
@@ -273,7 +273,7 @@ class Order extends Model
     }
 
     /**
-     * 计算订单中商品的总数.
+     * Calculate an Order total item count
      *
      * @param $order_id
      *
