@@ -36,7 +36,7 @@ and under "aliases" add:
       'description' => "My item descriptions",
       'currency' => "SGD"
     ];
-    Order::addItem($order->id, $veh, 90, 2, null, 0.07);
+    Order Order::addItem($order->id, $veh, 90, 2, null, 0.07);
 ```
 
 ## Get an order
