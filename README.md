@@ -1,4 +1,7 @@
+[![Latest Stable Version](https://poser.pugx.org/trexology/laravel-order/v/stable)](https://packagist.org/packages/trexology/laravel-order) [![Total Downloads](https://poser.pugx.org/trexology/laravel-order/downloads)](https://packagist.org/packages/trexology/laravel-order) [![Latest Unstable Version](https://poser.pugx.org/trexology/laravel-order/v/unstable)](https://packagist.org/packages/trexology/laravel-order) [![License](https://poser.pugx.org/trexology/laravel-order/license)](https://packagist.org/packages/trexology/laravel-order)
+
 # laravel-order
+Basic Ordering Package for Laravel 5
 
 # Installation
 
