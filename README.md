@@ -36,17 +36,17 @@ and under "aliases" add:
       'description' => "My item descriptions",
       'currency' => "SGD"
     ];
-    Order Order::addItem($order->id, $veh, 90, 2, null, 0.07);
+    Order Order::addItem(int $order->id, Model $object, double $price, int $quantity, array $data, double $vat);
 ```
 
 ## Get an order
 ```php
-    Order Order::getOrder($order_id);
+    Order Order::getOrder(int $order_id);
 ```
 
 ## Get user's orders
 ```php
-    Collection Order::getUserOrders($user_id);
+    Collection Order::getUserOrders(int $user_id);
 ```
 
 ## Update Order Status
@@ -66,10 +66,10 @@ and under "aliases" add:
 
 ## Calculate an Order total amount
 ```php
-    float Order::total($order_id);
+    float Order::total(int $order_id);
 ```
 
 ## Calculate an Order total item count
 ```php
-    int Order::count($order_id);
+    int Order::count(int $order_id);
 ```
