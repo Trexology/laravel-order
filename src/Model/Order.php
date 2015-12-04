@@ -10,18 +10,15 @@ class Order extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    /**
-     * 订单状态的定义.
-     *
-     * @var string
-     */
-    public $INIT = 'init';    // 订单初始化
-
-    public $OBLIGATION = 'obligation';  // 订单待付款
-
-    public $PROCESSING = 'processing';  // 订单处理中
-
-    public $COMPLETE = 'complete'; // 收货完成交易
+    // /**
+    //  * 订单状态的定义.
+    //  *
+    //  * @var string
+    //  */
+    public $INIT = config('order.init');
+    public $OBLIGATION = 'obligation';
+    public $PROCESSING = 'processing';
+    public $COMPLETE = config('order.complete');
 
 
     /**
@@ -185,15 +182,20 @@ class Order extends Model
      */
     public function updateStatus($order_id, $status)
     {
-        if (!($status == $this->INIT || $status == $this->COMPLETE
-            || $status == $this->OBLIGATION || $status == $this->PROCESSING)) {
-            return false;
-        }
+        // if (!($status == $this->INIT || $status == $this->COMPLETE
+        //     || $status == $this->OBLIGATION || $status == $this->PROCESSING)) {
+        //     return false;
+        // }
 
         $order = $this->getOrder($order_id);
 
         if (!$order) {
             return false;
+        }
+
+        if ($status == $this->COMPLETE) {
+          //Mark order as completed
+          $order->completed_at = now();
         }
 
         $order->state = $status;
