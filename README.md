@@ -15,6 +15,8 @@ and under "aliases" add:
 
     'Order'   => 'Trexology\LaravelOrder\Facades\Order',
 
+Edit additional settings at config/order.php
+
 
 # Usage
 

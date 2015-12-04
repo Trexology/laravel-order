@@ -30,7 +30,7 @@ class LaravelOrderServiceProvider extends ServiceProvider {
         ], 'migrations');
 
         $this->publishes([
-            __DIR__.'/../config/config.php' => config_path('order.php')
+            __DIR__.'/config/config.php' => config_path('order.php')
         ], 'config');
     }
 
@@ -39,7 +39,7 @@ class LaravelOrderServiceProvider extends ServiceProvider {
         return new Model\Order;
       });
 
-      $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'order');
+      $this->mergeConfigFrom(__DIR__ . '/config/config.php', 'order');
     }
 
     /**

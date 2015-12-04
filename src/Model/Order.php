@@ -10,17 +10,6 @@ class Order extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    // /**
-    //  * 订单状态的定义.
-    //  *
-    //  * @var string
-    //  */
-    public $INIT = config('order.init');
-    public $OBLIGATION = 'obligation';
-    public $PROCESSING = 'processing';
-    public $COMPLETE = config('order.complete');
-
-
     /**
      * Create an Order
      *
@@ -34,7 +23,7 @@ class Order extends Model
         $order = new self();
 
         $order->user_id = $user_id;
-        $order->state = $this->INIT;
+        $order->state = config("order.init");
         $order->items_number = 0;
         $order->items_total = 0;
 
@@ -182,20 +171,15 @@ class Order extends Model
      */
     public function updateStatus($order_id, $status)
     {
-        // if (!($status == $this->INIT || $status == $this->COMPLETE
-        //     || $status == $this->OBLIGATION || $status == $this->PROCESSING)) {
-        //     return false;
-        // }
-
         $order = $this->getOrder($order_id);
 
         if (!$order) {
             return false;
         }
 
-        if ($status == $this->COMPLETE) {
+        if ($status == config("order.complete")) {
           //Mark order as completed
-          $order->completed_at = now();
+          $order->completed_at = date("Y-m-d H:i:s");
         }
 
         $order->state = $status;
@@ -269,7 +253,6 @@ class Order extends Model
               $total += $item->total_price;
           }
         }
-
 
         return $total;
     }
