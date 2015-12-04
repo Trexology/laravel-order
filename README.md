@@ -15,8 +15,24 @@ and under "aliases" add:
 
     'Order'   => 'Trexology\LaravelOrder\Facades\Order',
 
-Edit additional settings at config/order.php
+Edit additional settings at `config/order.php`
 
+```php
+    return [
+
+        /*
+        |--------------------------------------------------------------------------
+        | Order Status Name
+        |--------------------------------------------------------------------------
+        | Customize the status name recorded
+        |
+        */
+
+        'init' => "init",
+        'complete' => "complete"
+
+    ];
+```
 
 # Usage
 
