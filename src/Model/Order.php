@@ -23,7 +23,6 @@ class Order extends Model
         $order = new self();
 
         $order->user_id = $user_id;
-        $order->state = config("order.init");
         $order->items_number = 0;
         $order->items_total = 0;
 
@@ -32,10 +31,12 @@ class Order extends Model
         }
 
         if (!$draft) {
+          $order->state = config("order.init");
           $order->save();
         }
         else {
           //Allocate fake id
+          $order->state = 'draft';
           $order->id = 0;
         }
 
