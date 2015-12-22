@@ -139,8 +139,8 @@ class Order extends Model
         foreach ($orderItems as $item) {
           $orderItem = new OrderItem();
 
-          if ($data) {
-            $orderItem->fill($data);
+          if ($item) {
+            $orderItem->fill($item);
           }
 
           $orderItem->total_price = $orderItem->qty * $orderItem->price;
