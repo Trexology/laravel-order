@@ -34,10 +34,10 @@ class Order extends Model
         if (!$draft) {
           $order->save();
         }
-        // else {
-        //   //Allocate fake id
-        //   $order->id = 0;
-        // }
+        else {
+          //Allocate fake id
+          $order->id = 0;
+        }
 
         return $order;
     }
@@ -99,7 +99,7 @@ class Order extends Model
         return $item;
     }
 
-    public function addItem($order_id, Model $object, $price, $qty, $data = null, $vat = 0)
+    public function addItem($order, Model $object, $price, $qty, $data = null, $vat = 0)
     {
         $orderItem = new OrderItem();
 
@@ -116,19 +116,19 @@ class Order extends Model
         $orderItem->total_price = $qty * $price;
         $orderItem->total_price += $orderItem->total_price * $vat;
 
-        $orderItem->order_id = $order_id;
+        $orderItem->order_id = $order->id;
 
-        if ($order_id != 0) {
+        if ($order->id > 0) {
             $orderItem->save();
             // $this["orderItems"] = OrderItem::where('order_id', $order_id)->get();
-            $order = $this->updateOrder($order_id);
+            $order = $this->updateOrder($order);
         }
-        // else {
-        //   //Draft Mode
-        //     $this["orderItems"]->push($orderItem);
-        //     $order = $this->updateOrder($this);
-        //     //dd($order["orderItems"]);
-        // }
+        else {
+            //Draft Mode
+            $order["orderItems"]->push($orderItem);
+            $order = $this->updateOrder($order);
+            //dd($order["orderItems"]);
+        }
 
         return $order;
     }
@@ -171,6 +171,11 @@ class Order extends Model
      */
     public function updateStatus($order_id, $status)
     {
+        // if (!($status == $this->INIT || $status == $this->COMPLETE
+        //     || $status == $this->OBLIGATION || $status == $this->PROCESSING)) {
+        //     return false;
+        // }
+
         $order = $this->getOrder($order_id);
 
         if (!$order) {
@@ -217,21 +222,23 @@ class Order extends Model
      *
      * @return bool
      */
-    public function updateOrder($order_id)
+
+    public function updateOrder($order)
     {
-        $order = self::findOrFail($order_id);
+        // $order = self::findOrFail($order_id);
         if (!$order) {
             return false;
         }
-        $order->items_total = $this->total($order_id);
-        $order->items_number = $this->count($order_id);
+        $order->items_total = $this->total($order);
+        $order->items_number = $this->count($order);
 
-        if ($order_id > 0) {
+        if ($order->id > 0) {
             // $temp = $order["orderItems"];
             // unset($order["orderItems"]);
             $order->save(); //unable to save with additional fields
             // $order["orderItems"] = $temp;
         }
+
         return $order;
     }
 
@@ -242,10 +249,16 @@ class Order extends Model
      *
      * @return int
      */
-    public function total($order_id)
+
+    public function total($order)
     {
-        $items = OrderItem::where('order_id', $order_id)->get();
-        // $items = $order['orderItems'];
+        if ($order->id > 0) {
+            $items = OrderItem::where('order_id', $order->id)->get();
+        }
+        else{
+            $items = $order['orderItems'];
+        }
+
         $total = 0;
 
         if ($items) {
@@ -264,10 +277,16 @@ class Order extends Model
      *
      * @return int
      */
-    public function count($order_id)
+    public function count($order)
     {
-        $items = OrderItem::where('order_id', $order_id)->get();
-        // $items = $order['orderItems'];
+        if ($order->id > 0) {
+            $items = OrderItem::where('order_id', $order->id)->get();
+        }
+        else{
+            $items = $order['orderItems'];
+        }
+        // $items = OrderItem::where('order_id', $order_id)->get();
+
         $count = 0;
 
         if ($items) {
