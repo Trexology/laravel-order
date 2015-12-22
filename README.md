@@ -5,7 +5,7 @@ Basic Ordering Package for Laravel 5
 
 # Installation
 
-    composer require "trexology/laravel-order:1.0.*"
+    composer require "trexology/laravel-order:1.*"
 
 After installation，go to `config/app.php` under `providers` section to add the following:
 
