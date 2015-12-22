@@ -133,6 +133,29 @@ class Order extends Model
         return $order;
     }
 
+    public function batchAddItems($order, $orderItems)
+    {
+        foreach ($orderItems as $item) {
+          $orderItem = new OrderItem();
+
+          if ($data) {
+            $orderItem->fill($data);
+          }
+
+          $orderItem->total_price = $orderItem->qty * $orderItem->price;
+          $orderItem->total_price += $orderItem->total_price * $orderItem->vat;
+
+          $orderItem->order_id = $order->id;
+
+          if ($order->id > 0) {
+              $orderItem->save();
+              $order = $this->updateOrder($order);
+          }
+        }
+
+        return $order;
+    }
+
     /**
      * Delete an Order
      *

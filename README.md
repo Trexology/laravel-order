@@ -57,6 +57,31 @@ Edit additional settings at `config/order.php`
     Order Order::addItem(Order $order, Model $object, double $price, int $quantity, array $data, double $vat);
 ```
 
+## Batch Adding item to Order
+```php
+    $order_Items = [
+        [
+            "description" => "Some Description",
+            "currency" => "USD",
+            "line_item_id" => 1,
+            "line_item_type" => "App\\Models\\Package",
+            "price" => 1802,
+            "quantity" => 1,
+            "vat" => 0,
+        ],
+        [
+            "description" => "Some Description",
+            "currency" => "USD",
+            "line_item_id" => 1,
+            "line_item_type" => "App\\Models\\Package",
+            "price" => 1802,
+            "quantity" => 1,
+            "vat" => 0,
+        ]
+    ];
+    Order Order::batchAddItems(Order $order, array $order_Items);
+```
+
 ## Get an order
 ```php
     Order Order::getOrder(int $order_id);
