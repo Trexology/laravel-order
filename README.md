@@ -54,7 +54,7 @@ Edit additional settings at `config/order.php`
       'description' => "My item descriptions",
       'currency' => "SGD"
     ];
-    Order Order::addItem(int $order->id, Model $object, double $price, int $quantity, array $data, double $vat);
+    Order Order::addItem(Order $order, Model $object, double $price, int $quantity, array $data, double $vat);
 ```
 
 ## Get an order
@@ -84,10 +84,10 @@ Edit additional settings at `config/order.php`
 
 ## Calculate an Order total amount
 ```php
-    float Order::total(int $order_id);
+    float Order::total(Order $order);
 ```
 
 ## Calculate an Order total item count
 ```php
-    int Order::count(int $order_id);
+    int Order::count(Order $order);
 ```
