@@ -143,7 +143,7 @@ class Order extends Model
             $orderItem->fill($item);
           }
 
-          $orderItem->total_price = $orderItem->qty * $orderItem->price;
+          $orderItem->total_price = $orderItem->quantity * $orderItem->price;
           $orderItem->total_price += $orderItem->total_price * $orderItem->vat;
 
           $orderItem->order_id = $order->id;
