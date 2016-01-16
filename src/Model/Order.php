@@ -121,14 +121,12 @@ class Order extends Model
 
         if ($order->id > 0) {
             $orderItem->save();
-            // $this["orderItems"] = OrderItem::where('order_id', $order_id)->get();
             $order = $this->updateOrder($order);
         }
         else {
             //Draft Mode
-            $order["orderItems"]->push($orderItem);
+            $order->orderItems->push($orderItem);
             $order = $this->updateOrder($order);
-            //dd($order["orderItems"]);
         }
 
         return $order;
@@ -257,10 +255,7 @@ class Order extends Model
         $order->items_number = $this->count($order);
 
         if ($order->id > 0) {
-            // $temp = $order["orderItems"];
-            // unset($order["orderItems"]);
             $order->save(); //unable to save with additional fields
-            // $order["orderItems"] = $temp;
         }
 
         return $order;
@@ -280,7 +275,7 @@ class Order extends Model
             $items = OrderItem::where('order_id', $order->id)->get();
         }
         else{
-            $items = $order['orderItems'];
+            $items = $order->orderItems;
         }
 
         $total = 0;
@@ -307,7 +302,7 @@ class Order extends Model
             $items = OrderItem::where('order_id', $order->id)->get();
         }
         else{
-            $items = $order['orderItems'];
+            $items = $order->orderItems;
         }
         // $items = OrderItem::where('order_id', $order_id)->get();
 
