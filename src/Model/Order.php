@@ -3,6 +3,7 @@
 namespace Trexology\LaravelOrder\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Order extends Model
 {
@@ -26,7 +27,14 @@ class Order extends Model
         $order->items_number = 0;
         $order->items_total = 0;
 
+        $attributes = $this->getAllColumnsNames($order);
         if ($data) {
+          foreach ($data as $key => $value) {
+            if (!array_key_exists($key,$attributes)) {
+              // remove unrecognized values
+              unset($data[$key]);
+            }
+          }
           $order->fill($data);
         }
 
@@ -104,7 +112,14 @@ class Order extends Model
     {
         $orderItem = new OrderItem();
 
+        $attributes = $this->getAllColumnsNames($orderItem);
         if ($data) {
+          foreach ($data as $key => $value) {
+            if (!array_key_exists($key,$attributes)) {
+              // remove unrecognized values
+              unset($data[$key]);
+            }
+          }
           $orderItem->fill($data);
         }
 
@@ -137,8 +152,15 @@ class Order extends Model
         foreach ($orderItems as $item) {
           $orderItem = new OrderItem();
 
+          $attributes = $this->getAllColumnsNames($orderItem);
           if ($item) {
-            $orderItem->fill($item);
+            foreach ($item as $key => $value) {
+              if (!array_key_exists($key,$attributes)) {
+                // remove unrecognized values
+                unset($item[$key]);
+              }
+            }
+            $orderItem->fill($data);
           }
 
           $orderItem->total_price = $orderItem->quantity * $orderItem->price;
@@ -320,5 +342,48 @@ class Order extends Model
     public function orderItems()
     {
         return $this->hasMany('Trexology\LaravelOrder\Model\OrderItem');
+    }
+
+    public function getAllColumnsNames($obj)
+    {
+        switch (DB::connection()->getConfig('driver')) {
+            case 'pgsql':
+                $query = "SELECT column_name FROM information_schema.columns WHERE table_name = '".$obj->getTable()."'";
+                $column_name = 'column_name';
+                $reverse = true;
+                break;
+
+            case 'mysql':
+                $query = 'SHOW COLUMNS FROM '.$obj->getTable();
+                $column_name = 'Field';
+                $reverse = false;
+                break;
+
+            case 'sqlsrv':
+                $parts = explode('.', $obj->getTable());
+                $num = (count($parts) - 1);
+                $table = $parts[$num];
+                $query = "SELECT column_name FROM ".DB::connection()->getConfig('database').".INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'".$table."'";
+                $column_name = 'column_name';
+                $reverse = false;
+                break;
+
+            default:
+                $error = 'Database driver not supported: '.DB::connection()->getConfig('driver');
+                throw new Exception($error);
+                break;
+        }
+
+        $columns = array();
+
+        foreach(DB::select($query) as $column) {
+            $columns[$column->$column_name] = $column->$column_name; // setting the column name as key too
+        }
+
+        if($reverse) {
+            $columns = array_reverse($columns);
+        }
+
+        return $columns;
     }
 }
