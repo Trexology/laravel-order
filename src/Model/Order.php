@@ -27,18 +27,12 @@ class Order extends Model
         $order->items_number = 0;
         $order->items_total = 0;
 
-        $attributes = $this->getAllColumnsNames($order);
         if ($data) {
-          foreach ($data as $key => $value) {
-            if (!array_key_exists($key,$attributes)) {
-              // remove unrecognized values
-              unset($data[$key]);
-            }
-          }
           $order->fill($data);
         }
 
         if (!$draft) {
+          $order = $this->removeInvalidAttributes($order);
           $order->state = config("order.init");
           $order->save();
         }
@@ -112,14 +106,7 @@ class Order extends Model
     {
         $orderItem = new OrderItem();
 
-        $attributes = $this->getAllColumnsNames($orderItem);
         if ($data) {
-          foreach ($data as $key => $value) {
-            if (!array_key_exists($key,$attributes)) {
-              // remove unrecognized values
-              unset($data[$key]);
-            }
-          }
           $orderItem->fill($data);
         }
 
@@ -135,6 +122,7 @@ class Order extends Model
         $orderItem->order_id = $order->id;
 
         if ($order->id > 0) {
+            $orderItem = $this->removeInvalidAttributes($orderItem);
             $orderItem->save();
             $order = $this->updateOrder($order);
         }
@@ -152,23 +140,16 @@ class Order extends Model
         foreach ($orderItems as $item) {
           $orderItem = new OrderItem();
 
-          $attributes = $this->getAllColumnsNames($orderItem);
           if ($item) {
-            foreach ($item as $key => $value) {
-              if (!array_key_exists($key,$attributes)) {
-                // remove unrecognized values
-                unset($item[$key]);
-              }
-            }
-            $orderItem->fill($data);
+            $orderItem->fill($item);
           }
 
           $orderItem->total_price = $orderItem->quantity * $orderItem->price;
           $orderItem->total_price += $orderItem->total_price * $orderItem->vat;
 
           $orderItem->order_id = $order->id;
-
           if ($order->id > 0) {
+              $orderItem = $this->removeInvalidAttributes($orderItem);
               $orderItem->save();
               $order = $this->updateOrder($order);
           }
@@ -277,7 +258,8 @@ class Order extends Model
         $order->items_number = $this->count($order);
 
         if ($order->id > 0) {
-            $order->save(); //unable to save with additional fields
+            $order = $this->removeInvalidAttributes($order);
+            $order->save();
         }
 
         return $order;
@@ -342,6 +324,17 @@ class Order extends Model
     public function orderItems()
     {
         return $this->hasMany('Trexology\LaravelOrder\Model\OrderItem');
+    }
+
+    public function removeInvalidAttributes(Model $obj)
+    {
+      $attributes = $this->getAllColumnsNames($obj);
+      foreach ($obj->getAttributes() as $key => $value) {
+        if (!array_key_exists($key,$attributes)) {
+          unset($obj->$key); // remove unrecognized values
+        }
+      }
+      return $obj;
     }
 
     public function getAllColumnsNames($obj)
