@@ -22,6 +22,7 @@ class CreateOrdersTable extends Migration {
             $table->integer('adjustments_numbers')->nullable();
             $table->float('adjustments_total', 15, 2)->nullable();
             $table->dateTime('completed_at')->nullable();
+						$table->text('note')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
