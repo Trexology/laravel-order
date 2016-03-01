@@ -9,11 +9,16 @@ Basic Ordering Package for Laravel 5
 
 After installation，go to `config/app.php` under `providers` section to add the following:
 
-    'Trexology\LaravelOrder\LaravelOrderServiceProvider'
+    Trexology\LaravelOrder\LaravelOrderServiceProvider::class
 
 and under "aliases" add:
 
-    'Order'   => 'Trexology\LaravelOrder\Facades\Order',
+    'Order'     => Trexology\LaravelOrder\Facades\Order::class
+
+
+publish the migration and config files with the command:
+
+    php artisan vendor:publish
 
 Edit additional settings at `config/order.php`
 
