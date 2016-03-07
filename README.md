@@ -13,7 +13,7 @@ After installation，go to `config/app.php` under `providers` section to add the
 
 and under "aliases" add:
 
-    'Order'     => Trexology\LaravelOrder\Facades\Order::class
+    'Order'     => Trexology\LaravelOrder\Facades\OrderFacade::class
 
 
 publish the migration and config files with the command:
