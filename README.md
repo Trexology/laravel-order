@@ -5,7 +5,7 @@ Basic Ordering Package for Laravel 5+
 
 # Installation
 
-    composer require "trexology/laravel-order:2.*
+    composer require trexology/laravel-order:2.*
 
 # Upgrade Guide
     This package uses [VentureCraft/revisionable](https://github.com/VentureCraft/revisionable/) to track order changes
