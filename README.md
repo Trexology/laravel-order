@@ -1,11 +1,15 @@
 [![Latest Stable Version](https://poser.pugx.org/trexology/laravel-order/v/stable)](https://packagist.org/packages/trexology/laravel-order) [![Total Downloads](https://poser.pugx.org/trexology/laravel-order/downloads)](https://packagist.org/packages/trexology/laravel-order) [![Latest Unstable Version](https://poser.pugx.org/trexology/laravel-order/v/unstable)](https://packagist.org/packages/trexology/laravel-order) [![License](https://poser.pugx.org/trexology/laravel-order/license)](https://packagist.org/packages/trexology/laravel-order)
 
 # laravel-order
-Basic Ordering Package for Laravel 5
+Basic Ordering Package for Laravel 5+
 
 # Installation
 
-    composer require "trexology/laravel-order:1.*"
+    composer require "trexology/laravel-order:2.*
+
+# Upgrade Guide
+    This package uses [VentureCraft/revisionable](https://github.com/VentureCraft/revisionable/) to track order changes
+    Remove the old migration file '2015_12_02_150448_create_orderLogs_table.php'
 
 After installation，go to `config/app.php` under `providers` section to add the following:
 
@@ -16,9 +20,10 @@ and under "aliases" add:
     'Order'     => Trexology\LaravelOrder\Facades\OrderFacade::class
 
 
-publish the migration and config files with the command:
+publish the migration and config files with the commands:
 
     php artisan vendor:publish
+    php artisan migrate --path=vendor/venturecraft/revisionable/src/migrations
 
 Edit additional settings at `config/order.php`
 

@@ -7,9 +7,12 @@ use DB;
 
 class Order extends Model
 {
-    protected $table = 'orders';
+    use \Venturecraft\Revisionable\RevisionableTrait;
 
+    protected $table = 'orders';
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    protected $dontKeepRevisionOf = ['id'];
 
     /**
      * Create an Order
