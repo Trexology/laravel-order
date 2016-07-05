@@ -11,6 +11,8 @@ return [
     */
 
     'init' => "init",
-    'complete' => "complete"
+    'complete' => "complete",
+
+    'ignoredFields' => []
 
 ];

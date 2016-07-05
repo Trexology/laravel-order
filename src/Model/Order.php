@@ -15,6 +15,11 @@ class Order extends Model
 
     protected $dontKeepRevisionOf = ['id'];
 
+    public function __construct () {
+      $this->dontKeepRevisionOf = array_merge($this->dontKeepRevisionOf,config("order.ignoredFields"));
+      parent:: __construct();
+    }
+
     /**
      * Create an Order
      *
