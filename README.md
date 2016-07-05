@@ -42,7 +42,9 @@ Edit additional settings at `config/order.php`
         */
 
         'init' => "init",
-        'complete' => "complete"
+        'complete' => "complete",
+
+        'ignoredFields' => []
 
     ];
 ```
