@@ -16,7 +16,7 @@ class CreateOrderItemsTable extends Migration {
 		{
             $table->increments('id');
             $table->integer('order_id')->unsigned();
-            $table->integer('line_item_id')->unsigned();
+            $table->string('line_item_id');
 						$table->string('line_item_type');
             $table->float('price', 10, 2);
             $table->integer('quantity');

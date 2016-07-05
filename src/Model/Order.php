@@ -105,7 +105,15 @@ class Order extends Model
         return $item;
     }
 
-    public function addItem($order, Model $object, $price, $qty, $data = null, $vat = 0)
+    public function addItem($order, Model $object, $price, $qty, $data = null, $vat = 0){
+
+        $object_id = $object->id;
+        $object_type = get_class($object);
+
+        Self::addItemManual($order, $object_id, $object_type, $price, $qty, $data = null, $vat = 0);
+    }
+
+    public function addItemManual($order, $object_id, $object_type, $price, $qty, $data = null, $vat = 0)
     {
         $orderItem = new OrderItem();
 
@@ -113,8 +121,8 @@ class Order extends Model
           $orderItem->fill($data);
         }
 
-        $orderItem->line_item_id = $object->id;
-        $orderItem->line_item_type = get_class($object);
+        $orderItem->line_item_id = $object_id;
+        $orderItem->line_item_type = $object_type;
         $orderItem->price = $price;
         $orderItem->quantity = $qty;
         $orderItem->vat = $vat;

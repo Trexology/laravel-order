@@ -8,8 +8,11 @@ Basic Ordering Package for Laravel 5+
     composer require trexology/laravel-order:2.*
 
 # Upgrade Guide
-    This package uses [VentureCraft/revisionable](https://github.com/VentureCraft/revisionable/) to track order changes
-    Remove the old migration file '2015_12_02_150448_create_orderLogs_table.php'
+• This package uses [VentureCraft/revisionable](https://github.com/VentureCraft/revisionable/) to track order changes
+
+• Remove the old migration file '2015_12_02_150448_create_orderLogs_table.php'
+
+• Column `line_item_id` in `Orderitems` table has been changed from integer to string for greater flexibility (version 1 user have to change the column type manually)
 
 After installation，go to `config/app.php` under `providers` section to add the following:
 
@@ -47,7 +50,7 @@ Edit additional settings at `config/order.php`
 # Usage
 
 ## Create a new order
-
+`Order Order::order(int $user_id, array $data = null, bool $draft = FALSE)`
 ```php
     $data = [
         //Custom fields
@@ -55,19 +58,31 @@ Edit additional settings at `config/order.php`
         'cust_last_name' => $cust->last_name
     ];
 
-    Order Order::order(int $user_id, array $data);
+    $order = Order::order($cust->id, $data);
 ```
 
 ## Add item to Order
+`Order Order::addItem(Order $order, Model $object, double $price, int $quantity, array $data = null, double $vat = 0);`
 ```php
     $data = [
       'description' => "My item descriptions",
       'currency' => "SGD"
     ];
-    Order Order::addItem(Order $order, Model $object, double $price, int $quantity, array $data, double $vat);
+    $order = Order::addItem($order, $object, 25.5, 2, $data, 7);
+```
+
+## Add item to Order (Non Eloquent Style)
+`Order Order::addItemManual(Order $order, string $object_id, string $object_type, double $price, int $quantity, array $data = null, double $vat = 0)`
+```php
+    $data = [
+      'description' => "My item descriptions",
+      'currency' => "SGD"
+    ];
+    $order = Order::addItem($order, 22, "App\Model\Object", 25.5, 2, $data, 7);
 ```
 
 ## Batch Adding item to Order
+`Order Order::batchAddItems(Order $order, array $order_Items)`
 ```php
     $order_Items = [
         [
@@ -89,7 +104,7 @@ Edit additional settings at `config/order.php`
             "vat" => 0,
         ]
     ];
-    Order Order::batchAddItems(Order $order, array $order_Items);
+    $order = Order::batchAddItems($order, $order_Items);
 ```
 
 ## Get an order
