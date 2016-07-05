@@ -110,7 +110,7 @@ class Order extends Model
         $object_id = $object->id;
         $object_type = get_class($object);
 
-        Self::addItemManual($order, $object_id, $object_type, $price, $qty, $data = null, $vat = 0);
+        return Self::addItemManual($order, $object_id, $object_type, $price, $qty, $data, $vat);
     }
 
     public function addItemManual($order, $object_id, $object_type, $price, $qty, $data = null, $vat = 0)
