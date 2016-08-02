@@ -7,13 +7,6 @@ Basic Ordering Package for Laravel 5+
 
     composer require trexology/laravel-order:2.*
 
-# Upgrade Guide
-• This package uses [VentureCraft/revisionable](https://github.com/VentureCraft/revisionable/) to track order changes
-
-• Remove the old migration file '2015_12_02_150448_create_orderLogs_table.php'
-
-• Column `line_item_id` in `Orderitems` table has been changed from integer to string for greater flexibility (version 1 user have to change the column type manually)
-
 After installation，go to `config/app.php` under `providers` section to add the following:
 
     Trexology\LaravelOrder\LaravelOrderServiceProvider::class
@@ -26,7 +19,6 @@ and under "aliases" add:
 publish the migration and config files with the commands:
 
     php artisan vendor:publish
-    php artisan migrate --path=vendor/venturecraft/revisionable/src/migrations
 
 Edit additional settings at `config/order.php`
 
@@ -48,6 +40,13 @@ Edit additional settings at `config/order.php`
 
     ];
 ```
+
+# Upgrade Guide from 1.*
+• This package uses [VentureCraft/revisionable](https://github.com/VentureCraft/revisionable/) to track order changes
+
+• Remove the old migration file '2015_12_02_150448_create_orderLogs_table.php'
+
+• Column `line_item_id` in `Orderitems` table has been changed from integer to string for greater flexibility (version 1 user have to change the column type manually)
 
 # Usage
 

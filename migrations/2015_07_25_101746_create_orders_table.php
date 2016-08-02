@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Artisan;
 
 class CreateOrdersTable extends Migration {
 
@@ -12,6 +13,8 @@ class CreateOrdersTable extends Migration {
 	 */
 	public function up()
 	{
+		Artisan::call('migrate', ["--force"=> true, "--path"=> "vendor/venturecraft/revisionable/src/migrations" ]);
+
 		Schema::create('orders', function(Blueprint $table)
 		{
             $table->increments('id');
