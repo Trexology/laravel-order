@@ -13,10 +13,10 @@
     }
   ],
   "require": {
-    "illuminate/support": "5.0.*|5.1.*|5.2.*",
-    "illuminate/config": "5.0.*|5.1.*|5.2.*",
-    "illuminate/database": "5.0.*|5.1.*|5.2.*",
-    "illuminate/console": "5.0.*|5.1.*|5.2.*",
+    "illuminate/support": "5.0.*|5.1.*|5.2.*|5.*",
+    "illuminate/config": "5.0.*|5.1.*|5.2.*|5.*",
+    "illuminate/database": "5.0.*|5.1.*|5.2.*|5.*",
+    "illuminate/console": "5.0.*|5.1.*|5.2.*|5.*",
     "venturecraft/revisionable": "1.*"
   },
   "require-dev": {
